@@ -9,6 +9,7 @@ public class KeyInput extends KeyAdapter {
 	private boolean down;
 	private boolean right;
 	private boolean left;
+	private boolean shoot;
 
 	public boolean isUp() {
 		return up;
@@ -24,6 +25,10 @@ public class KeyInput extends KeyAdapter {
 
 	public boolean isLeft() {
 		return left;
+	}
+
+	public boolean isShoot() {
+		return shoot;
 	}
 
 	@Override
@@ -49,6 +54,10 @@ public class KeyInput extends KeyAdapter {
 			case KeyEvent.VK_S:
 			case KeyEvent.VK_DOWN:
 				this.down = true;
+				break;
+
+			case KeyEvent.VK_SPACE:
+				this.shoot = true;
 				break;
 		}
 
@@ -77,6 +86,10 @@ public class KeyInput extends KeyAdapter {
 			case KeyEvent.VK_S:
 			case KeyEvent.VK_DOWN:
 				this.down = false;
+				break;
+
+			case KeyEvent.VK_SPACE:
+				this.shoot = false;
 				break;
 		}
 	}

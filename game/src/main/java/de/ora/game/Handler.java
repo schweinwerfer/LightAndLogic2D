@@ -1,40 +1,48 @@
 package de.ora.game;
 
 import java.awt.*;
-import java.util.LinkedList;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Handler {
-	LinkedList<GameObject> gameObjects = new LinkedList<GameObject>();
+	private List<GameObject> gameObjects = new ArrayList<>();
+	private Player player;
 
 
 	public void render(Graphics g) {
-		for(GameObject gameObject : gameObjects) {
+		for(final GameObject gameObject : gameObjects) {
 			gameObject.render(g);
 		}
 	}
 
 	public void tick() {
-		for(GameObject gameObject : gameObjects) {
+		for(final GameObject gameObject : gameObjects) {
 			gameObject.tick();
 		}
 	}
 
 	public void add(GameObject gameObject) {
 		gameObject.setHandler(this);
-		gameObjects.add(gameObject);
+		List<GameObject> copy = new ArrayList<>(gameObjects);
+		copy.add(gameObject);
+		gameObjects = copy;
+		if(ObjectId.PLAYER == gameObject.id) {
+			player = (Player) gameObject;
+		}
 	}
 
 	public boolean remove(GameObject gameObject) {
-		return gameObjects.remove(gameObject);
+		List<GameObject> copy = new ArrayList<>(gameObjects);
+		boolean success = copy.remove(gameObject);
+		gameObjects = copy;
+		return success;
 	}
 
 	public Player getPlayer() {
-		for(GameObject gameObject : gameObjects) {
-			if(ObjectId.PLAYER == gameObject.id) {
-				return (Player) gameObject;
-			}
-		}
+		return player;
+	}
 
-		return null;
+	public List<GameObject> getGameObjects() {
+		return gameObjects;
 	}
 }

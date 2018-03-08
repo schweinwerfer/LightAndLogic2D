@@ -68,6 +68,10 @@ public class Game extends Canvas implements Runnable {
 				}
 				else if(ObjectId.BOX.matches(color)) {
 					handler.add(new Box(xx * 32, yy * 32));
+
+				}
+				else if(ObjectId.ENEMY.matches(color)) {
+					handler.add(new Enemy(xx * 32, yy * 32));
 				}
 
 			}

@@ -6,7 +6,7 @@ public enum ObjectId {
 	PLAYER(Color.WHITE),
 	BLOCK(new Color(127, 127, 127)),
 	BULLET(null),
-	ENEMY(Color.RED),
+	ENEMY(new Color(237, 28, 36)),
 	BOX(new Color(185, 122, 87));
 
 	private Color mapCode;
