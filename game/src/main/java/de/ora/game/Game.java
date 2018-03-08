@@ -60,13 +60,13 @@ public class Game extends Canvas implements Runnable {
 					continue;
 				}
 
-				if(new Color(127, 127, 127).equals(color)) {
+				if(ObjectId.BLOCK.matches(color)) {
 					handler.add(new Block(xx * 32, yy * 32));
 				}
-				else if(Color.WHITE.equals(color)) {
+				else if(ObjectId.PLAYER.matches(color)) {
 					handler.add(new Player(xx * 32, yy * 32, keyInput));
 				}
-				else if(new Color(185, 122, 87).equals(color)) {
+				else if(ObjectId.BOX.matches(color)) {
 					handler.add(new Box(xx * 32, yy * 32));
 				}
 
