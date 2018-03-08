@@ -1,5 +1,7 @@
 package de.ora.game;
 
+import de.ora.game.engine.GameObject;
+
 import java.awt.*;
 import java.util.Random;
 
@@ -56,8 +58,12 @@ public class Enemy extends GameObject {
 			}
 			else if(ObjectId.BULLET == gameObject.id) {
 				if(getBounds().intersects(gameObject.getBounds())) {
-					int damage = ((Bullet) gameObject).getDamage();
+					Bullet bullet = (Bullet) gameObject;
+					int damage = bullet.getDamage();
 					this.hp -= damage;
+					if(!bullet.isPenetrates()) {
+						getHandler().remove(bullet);
+					}
 				}
 			}
 		}

@@ -1,4 +1,4 @@
-package de.ora.game;
+package de.ora.game.engine;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -91,6 +91,7 @@ public class KeyInput extends KeyAdapter {
 			case KeyEvent.VK_SPACE:
 				this.shoot = false;
 				break;
+
 		}
 	}
 }

@@ -1,5 +1,7 @@
 package de.ora.game;
 
+import de.ora.game.engine.*;
+import de.ora.game.engine.Window;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,6 +21,7 @@ public class Game extends Canvas implements Runnable {
 
 	private BufferedImage level;
 	private KeyInput keyInput;
+	private int frames;
 
 
 	public Game() {
@@ -86,12 +89,14 @@ public class Game extends Canvas implements Runnable {
 
 	private void stop() {
 		isRunning = false;
-		try {
-			thread.join();
-		}
-		catch(InterruptedException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			thread.join();
+//		}
+//		catch(InterruptedException e) {
+//			e.printStackTrace();
+//		}
+//
+//		System.exit(0);
 	}
 
 	public void run() {
@@ -101,7 +106,7 @@ public class Game extends Canvas implements Runnable {
 		double ns = 1000000000 / amountOfTicks;
 		double delta = 0;
 		long timer = System.currentTimeMillis();
-		int frames = 0;
+		frames = 0;
 
 		while(isRunning) {
 			long now = System.nanoTime();
@@ -140,12 +145,16 @@ public class Game extends Canvas implements Runnable {
 		Graphics g = bs.getDrawGraphics();
 		Graphics2D g2d = (Graphics2D) g;
 		///////
-		g.setColor(Color.BLACK);
+		g.setColor(new Color(0, 0, 0));
 		g.fillRect(0, 0, WIDTH, HEIGHT);
+
 
 		g2d.translate(-camera.getX(), -camera.getY());
 		handler.render(g);
 		g2d.translate(camera.getX(), camera.getY());
+
+		g.setColor(Color.WHITE);
+		g.drawString(frames + " fps", 10, 20);
 		///////
 		g.dispose();
 		bs.show();
@@ -158,5 +167,9 @@ public class Game extends Canvas implements Runnable {
 	private void tick() {
 		camera.tick();
 		handler.tick();
+	}
+
+	public void exit() {
+		isRunning = false;
 	}
 }

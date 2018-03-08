@@ -1,5 +1,7 @@
 package de.ora.game;
 
+import de.ora.game.engine.GameObject;
+
 import java.awt.*;
 
 public class Box extends GameObject {

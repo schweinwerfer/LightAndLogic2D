@@ -1,11 +1,13 @@
-package de.ora.game;
+package de.ora.game.engine;
+
+import de.ora.game.ObjectId;
 
 import java.awt.*;
 
 public abstract class GameObject {
 	protected int x, y;
 	protected float velX = 0, velY = 0;
-	protected ObjectId id;
+	public ObjectId id;
 	private Handler handler;
 
 	public GameObject(ObjectId id, int x, int y) {

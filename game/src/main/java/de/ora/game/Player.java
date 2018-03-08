@@ -1,5 +1,7 @@
 package de.ora.game;
 
+import de.ora.game.engine.GameObject;
+import de.ora.game.engine.KeyInput;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

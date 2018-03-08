@@ -1,4 +1,8 @@
-package de.ora.game;
+package de.ora.game.engine;
+
+import de.ora.game.ObjectId;
+import de.ora.game.Player;
+import de.ora.game.engine.GameObject;
 
 import java.awt.*;
 import java.util.ArrayList;

@@ -1,4 +1,6 @@
-package de.ora.game;
+package de.ora.game.engine;
+
+import de.ora.game.Game;
 
 public class Camera {
 	private float x;
