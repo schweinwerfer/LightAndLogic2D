@@ -8,8 +8,8 @@ import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 
 public class Game extends Canvas implements Runnable {
-	public static final int WIDTH = 500;
-	public static final int HEIGHT = 500;
+	public static final int WIDTH = 512;
+	public static final int HEIGHT = 512;
 	private static final Logger LOG = LoggerFactory.getLogger(Game.class);
 
 	private boolean isRunning = false;

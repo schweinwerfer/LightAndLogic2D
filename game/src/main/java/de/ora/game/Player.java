@@ -12,6 +12,9 @@ public class Player extends GameObject {
 	}
 
 	protected void internalTick() {
+
+		collision();
+
 		if(controller.isUp()) {
 			velY = -speed;
 		}
@@ -41,12 +44,23 @@ public class Player extends GameObject {
 		}
 	}
 
+	private void collision() {
+		for(GameObject gameObject : getHandler().gameObjects) {
+			if(gameObject.id == ObjectId.BLOCK) {
+				if(getBounds().intersects(gameObject.getBounds())) {
+					x += velX * -1;
+					y += velY * -1;
+				}
+			}
+		}
+	}
+
 	public void render(Graphics g) {
 		g.setColor(Color.WHITE);
 		g.fillRect(x, y, 32, 32);
 	}
 
 	public Rectangle getBounds() {
-		return new Rectangle(x, y, 32, 32);
+		return new Rectangle(x, y, 33, 33);
 	}
 }

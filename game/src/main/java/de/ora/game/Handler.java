@@ -20,6 +20,7 @@ public class Handler {
 	}
 
 	public void add(GameObject gameObject) {
+		gameObject.setHandler(this);
 		gameObjects.add(gameObject);
 	}
 

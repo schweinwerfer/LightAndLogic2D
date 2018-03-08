@@ -5,7 +5,7 @@ import java.awt.*;
 public class Box extends GameObject {
 
 	public Box(int x, int y) {
-		super(ObjectId.BLOCK, x, y);
+		super(ObjectId.BOX, x, y);
 	}
 
 	public void internalTick() {

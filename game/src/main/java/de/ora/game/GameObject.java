@@ -6,13 +6,13 @@ public abstract class GameObject {
 	protected int x, y;
 	protected float velX = 0, velY = 0;
 	protected ObjectId id;
+	private Handler handler;
 
 	public GameObject(ObjectId id, int x, int y) {
 		this.id = id;
 		this.x = x;
 		this.y = y;
 	}
-
 
 	/**
 	 * Update routine
@@ -21,7 +21,6 @@ public abstract class GameObject {
 		internalTick();
 		x += velX;
 		y += velY;
-
 	}
 
 	protected abstract void internalTick();
@@ -69,5 +68,13 @@ public abstract class GameObject {
 
 	public ObjectId getId() {
 		return id;
+	}
+
+	public void setHandler(Handler handler) {
+		this.handler = handler;
+	}
+
+	public Handler getHandler() {
+		return handler;
 	}
 }
