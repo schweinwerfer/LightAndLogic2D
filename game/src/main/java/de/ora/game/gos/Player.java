@@ -1,4 +1,4 @@
-package de.ora.game;
+package de.ora.game.gos;
 
 import de.ora.game.engine.GameObject;
 import de.ora.game.engine.KeyInput;
@@ -16,7 +16,7 @@ public class Player extends GameObject {
 	private PlayerOrientation orientation;
 
 	public Player(int x, int y, KeyInput keyInput) {
-		super(ObjectId.PLAYER, x, y);
+		super(ObjectIdImpl.PLAYER, x, y);
 		this.controller = keyInput;
 		orientation = PlayerOrientation.RIGHT;
 	}
@@ -84,7 +84,7 @@ public class Player extends GameObject {
 						velX = 5;
 						break;
 				}
-				final Bullet bullet = new Bullet(ObjectId.BULLET, x + xAdd, y + yAdd);
+				final Bullet bullet = new Bullet(ObjectIdImpl.BULLET, x + xAdd, y + yAdd);
 				bullet.setVelX(velX);
 				bullet.setVelY(velY);
 				getHandler().add(bullet);
@@ -98,7 +98,7 @@ public class Player extends GameObject {
 
 	private void collision() {
 		for(GameObject gameObject : getHandler().getGameObjects()) {
-			if(gameObject.id == ObjectId.BLOCK) {
+			if(gameObject.id == ObjectIdImpl.BLOCK) {
 				if(getBounds().intersects(gameObject.getBounds())) {
 					x += velX * -1;
 					y += velY * -1;

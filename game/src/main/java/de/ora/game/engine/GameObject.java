@@ -1,7 +1,5 @@
 package de.ora.game.engine;
 
-import de.ora.game.ObjectId;
-
 import java.awt.*;
 
 public abstract class GameObject {

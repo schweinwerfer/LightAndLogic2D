@@ -1,4 +1,4 @@
-package de.ora.game;
+package de.ora.game.gos;
 
 import de.ora.game.engine.GameObject;
 
@@ -14,7 +14,7 @@ public class Bullet extends GameObject {
 	private boolean penetrates = false;
 	private Point2D origin;
 
-	public Bullet(ObjectId id, int x, int y) {
+	public Bullet(ObjectIdImpl id, int x, int y) {
 		super(id, x, y);
 		origin = new Point(x, y);
 	}
@@ -66,7 +66,7 @@ public class Bullet extends GameObject {
 
 	private void collision() {
 		for(GameObject gameObject : getHandler().getGameObjects()) {
-			if(ObjectId.BLOCK == gameObject.id) {
+			if(ObjectIdImpl.BLOCK == gameObject.id) {
 				if(getBounds().intersects(gameObject.getBounds())) {
 					getHandler().remove(this);
 				}

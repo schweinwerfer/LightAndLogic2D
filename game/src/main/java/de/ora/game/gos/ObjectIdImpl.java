@@ -1,8 +1,10 @@
-package de.ora.game;
+package de.ora.game.gos;
+
+import de.ora.game.engine.ObjectId;
 
 import java.awt.*;
 
-public enum ObjectId {
+public enum ObjectIdImpl implements ObjectId {
 	PLAYER(Color.WHITE),
 	BLOCK(new Color(127, 127, 127)),
 	BULLET(null),
@@ -11,7 +13,7 @@ public enum ObjectId {
 
 	private Color mapCode;
 
-	ObjectId(Color mapCode) {
+	ObjectIdImpl(Color mapCode) {
 		this.mapCode = mapCode;
 	}
 

@@ -1,35 +1,35 @@
-package de.ora.game;
+package de.ora.game.engine;
 
-import de.ora.game.engine.*;
-import de.ora.game.engine.Window;
+import de.ora.game.ext.Renderer;
+import de.ora.game.gos.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.awt.*;
-import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 
-public class Game extends Canvas implements Runnable {
+public class GameContainer implements Runnable {
+	private static final Logger LOG = LoggerFactory.getLogger(GameContainer.class);
 	public static final int WIDTH = 512;
 	public static final int HEIGHT = 512;
-	private static final Logger LOG = LoggerFactory.getLogger(Game.class);
 
-	private boolean isRunning = false;
+	private final Window window;
 	private Thread thread;
-	private Handler handler;
-	private Camera camera;
+	private final Renderer renderer;
+	private final Handler handler;
+	private final Camera camera;
+	private final KeyInput keyInput;
 
+	private float scale = 1.0f;
+	private boolean isRunning = false;
 	private BufferedImage level;
-	private KeyInput keyInput;
 	private int frames;
 
 
-	public Game() {
-		new Window(WIDTH, HEIGHT, "Wizard", this);
-
+	public GameContainer() {
 		keyInput = new KeyInput();
-		this.addKeyListener(keyInput);
-
+		window = new Window(WIDTH, HEIGHT, scale, "Wizard", this);
+		renderer = new Renderer(window);
 		handler = new Handler();
 		camera = new Camera(0, 0);
 
@@ -42,9 +42,7 @@ public class Game extends Canvas implements Runnable {
 		start();
 	}
 
-	public static void main(String[] args) {
-		new Game();
-	}
+
 
 	private void loadLevel(BufferedImage image) {
 		int w = image.getWidth();
@@ -63,17 +61,17 @@ public class Game extends Canvas implements Runnable {
 					continue;
 				}
 
-				if(ObjectId.BLOCK.matches(color)) {
+				if(ObjectIdImpl.BLOCK.matches(color)) {
 					handler.add(new Block(xx * 32, yy * 32));
 				}
-				else if(ObjectId.PLAYER.matches(color)) {
+				else if(ObjectIdImpl.PLAYER.matches(color)) {
 					handler.add(new Player(xx * 32, yy * 32, keyInput));
 				}
-				else if(ObjectId.BOX.matches(color)) {
+				else if(ObjectIdImpl.BOX.matches(color)) {
 					handler.add(new Box(xx * 32, yy * 32));
 
 				}
-				else if(ObjectId.ENEMY.matches(color)) {
+				else if(ObjectIdImpl.ENEMY.matches(color)) {
 					handler.add(new Enemy(xx * 32, yy * 32));
 				}
 
@@ -89,18 +87,10 @@ public class Game extends Canvas implements Runnable {
 
 	private void stop() {
 		isRunning = false;
-//		try {
-//			thread.join();
-//		}
-//		catch(InterruptedException e) {
-//			e.printStackTrace();
-//		}
-//
-//		System.exit(0);
 	}
 
 	public void run() {
-		this.requestFocus();
+
 		long lastTime = System.nanoTime();
 		double amountOfTicks = 60.0;
 		double ns = 1000000000 / amountOfTicks;
@@ -136,28 +126,19 @@ public class Game extends Canvas implements Runnable {
 	 * Gets updated 1000x/sec
 	 */
 	private void render() {
-		BufferStrategy bs = this.getBufferStrategy();
-		if(bs == null) {
-			this.createBufferStrategy(3);
-			return;
-		}
-
-		Graphics g = bs.getDrawGraphics();
+		renderer.clear();
+		Graphics g = window.getImage().getGraphics();
 		Graphics2D g2d = (Graphics2D) g;
-		///////
-		g.setColor(new Color(0, 0, 0));
-		g.fillRect(0, 0, WIDTH, HEIGHT);
-
-
+		/////
 		g2d.translate(-camera.getX(), -camera.getY());
 		handler.render(g);
 		g2d.translate(camera.getX(), camera.getY());
-
+		/////
 		g.setColor(Color.WHITE);
 		g.drawString(frames + " fps", 10, 20);
-		///////
+		window.render();
+
 		g.dispose();
-		bs.show();
 	}
 
 	/**
@@ -171,5 +152,13 @@ public class Game extends Canvas implements Runnable {
 
 	public void exit() {
 		isRunning = false;
+	}
+
+	public Window getWindow() {
+		return window;
+	}
+
+	public KeyInput getKeyInput() {
+		return keyInput;
 	}
 }

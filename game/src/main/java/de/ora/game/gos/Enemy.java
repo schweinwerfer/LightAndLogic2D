@@ -1,4 +1,4 @@
-package de.ora.game;
+package de.ora.game.gos;
 
 import de.ora.game.engine.GameObject;
 
@@ -12,7 +12,7 @@ public class Enemy extends GameObject {
 	int hp = 100;
 
 	public Enemy(int x, int y) {
-		super(ObjectId.ENEMY, x, y);
+		super(ObjectIdImpl.ENEMY, x, y);
 	}
 
 	@Override
@@ -47,7 +47,7 @@ public class Enemy extends GameObject {
 
 	private void collision() {
 		for(GameObject gameObject : getHandler().getGameObjects()) {
-			if(ObjectId.BLOCK == gameObject.id) {
+			if(ObjectIdImpl.BLOCK == gameObject.id) {
 				if(getBoundsBig().intersects(gameObject.getBounds())) {
 					x -= (velX * 5);
 					y -= (velY * 5);
@@ -56,7 +56,7 @@ public class Enemy extends GameObject {
 					velY *= -1;
 				}
 			}
-			else if(ObjectId.BULLET == gameObject.id) {
+			else if(ObjectIdImpl.BULLET == gameObject.id) {
 				if(getBounds().intersects(gameObject.getBounds())) {
 					Bullet bullet = (Bullet) gameObject;
 					int damage = bullet.getDamage();

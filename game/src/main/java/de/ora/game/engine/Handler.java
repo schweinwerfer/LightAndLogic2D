@@ -1,8 +1,7 @@
 package de.ora.game.engine;
 
-import de.ora.game.ObjectId;
-import de.ora.game.Player;
-import de.ora.game.engine.GameObject;
+import de.ora.game.gos.ObjectIdImpl;
+import de.ora.game.gos.Player;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -30,7 +29,7 @@ public class Handler {
 		List<GameObject> copy = new ArrayList<>(gameObjects);
 		copy.add(gameObject);
 		gameObjects = copy;
-		if(ObjectId.PLAYER == gameObject.id) {
+		if(ObjectIdImpl.PLAYER == gameObject.id) {
 			player = (Player) gameObject;
 		}
 	}

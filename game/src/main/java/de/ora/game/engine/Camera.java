@@ -1,7 +1,5 @@
 package de.ora.game.engine;
 
-import de.ora.game.Game;
-
 public class Camera {
 	private float x;
 	private float y;
@@ -14,8 +12,8 @@ public class Camera {
 
 	public void tick() {
 		if(gameObject == null) return;
-		x += (gameObject.getX() - x - Game.WIDTH / 2) * 0.05f;
-		y += (gameObject.getY() - y - Game.HEIGHT / 2) * 0.05f;
+		x += (gameObject.getX() - x - GameContainer.WIDTH / 2) * 0.05f;
+		y += (gameObject.getY() - y - GameContainer.HEIGHT / 2) * 0.05f;
 
 //		if(x <= 0) x = 0;
 //		if(x >= Game.WIDTH) x = Game.WIDTH + 32;

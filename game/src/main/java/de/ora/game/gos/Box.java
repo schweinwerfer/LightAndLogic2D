@@ -1,13 +1,13 @@
-package de.ora.game;
+package de.ora.game.gos;
 
 import de.ora.game.engine.GameObject;
 
 import java.awt.*;
 
-public class Block extends GameObject {
+public class Box extends GameObject {
 
-	public Block(int x, int y) {
-		super(ObjectId.BLOCK, x, y);
+	public Box(int x, int y) {
+		super(ObjectIdImpl.BOX, x, y);
 	}
 
 	public void internalTick() {
@@ -15,11 +15,11 @@ public class Block extends GameObject {
 	}
 
 	public void render(Graphics g) {
-		g.setColor(new Color(0xD4D4D4));
+		g.setColor(new Color(0x804314));
 		g.fillRect(x, y, 32, 32);
 	}
 
 	public Rectangle getBounds() {
-		return new Rectangle(x, y, 32, 32);
+		return null;
 	}
 }
