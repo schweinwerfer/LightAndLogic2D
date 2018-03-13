@@ -26,6 +26,9 @@ public class Window {
 		canvas.addKeyListener(game.getKeyInput());
 
 		JFrame frame = new JFrame(title);
+		frame.setMaximumSize(dimension);
+		frame.setMinimumSize(dimension);
+		frame.setPreferredSize(dimension);
 		frame.setLayout(new BorderLayout());
 		frame.add(canvas, BorderLayout.CENTER);
 		frame.pack();

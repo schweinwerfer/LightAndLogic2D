@@ -9,15 +9,14 @@ import java.awt.*;
 
 public class Player extends GameObject {
 	private static final Logger LOG = LoggerFactory.getLogger(Player.class);
-	private final KeyInput controller;
+	private KeyInput controller;
 	private int speed = 3;
 
 	private int bulletRechargeTimeout = 0;
 	private PlayerOrientation orientation;
 
-	public Player(int x, int y, KeyInput keyInput) {
+	public Player(int x, int y) {
 		super(ObjectIdImpl.PLAYER, x, y);
-		this.controller = keyInput;
 		orientation = PlayerOrientation.RIGHT;
 	}
 
@@ -130,7 +129,12 @@ public class Player extends GameObject {
 		}
 	}
 
+
 	public Rectangle getBounds() {
 		return new Rectangle(x, y, 33, 33);
+	}
+
+	public void addController(KeyInput keyInput) {
+		this.controller = keyInput;
 	}
 }

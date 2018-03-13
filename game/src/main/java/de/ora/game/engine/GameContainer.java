@@ -1,7 +1,8 @@
 package de.ora.game.engine;
 
+import de.ora.game.engine.gfx.Resources;
 import de.ora.game.ext.Renderer;
-import de.ora.game.gos.*;
+import de.ora.game.gos.Player;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,11 +15,13 @@ public class GameContainer implements Runnable {
 	public static final int HEIGHT = 512;
 
 	private final Window window;
+	private final Resources resources;
 	private Thread thread;
 	private final Renderer renderer;
 	private final Handler handler;
 	private final Camera camera;
 	private final KeyInput keyInput;
+	private final AbstractGame game;
 
 	private float scale = 1.0f;
 	private boolean isRunning = false;
@@ -26,60 +29,21 @@ public class GameContainer implements Runnable {
 	private int frames;
 
 
-	public GameContainer() {
+	public GameContainer(AbstractGame game) {
+		this.game = game;
 		keyInput = new KeyInput();
 		window = new Window(WIDTH, HEIGHT, scale, "Wizard", this);
 		renderer = new Renderer(window);
 		handler = new Handler();
 		camera = new Camera(0, 0);
-
-		ImageLoader imageLoader = new ImageLoader();
-		level = imageLoader.load("levels/level1.png");
-		loadLevel(level);
-
-		camera.follow(handler.getPlayer());
-
-		start();
+		resources = new Resources(handler);
+		final Player player = handler.getPlayer();
+		player.addController(keyInput);
+		camera.follow(player);
 	}
 
 
-
-	private void loadLevel(BufferedImage image) {
-		int w = image.getWidth();
-		int h = image.getHeight();
-
-		for(int xx = 0; xx < w; xx++) {
-			for(int yy = 0; yy < h; yy++) {
-				int pixel = image.getRGB(xx, yy);
-				int red = (pixel >> 16) & 0x0ff;
-				int green = (pixel >> 8) & 0x0ff;
-				int blue = (pixel) & 0x0ff;
-
-				Color color = new Color(red, green, blue);
-
-				if(Color.BLACK.equals(color)) {
-					continue;
-				}
-
-				if(ObjectIdImpl.BLOCK.matches(color)) {
-					handler.add(new Block(xx * 32, yy * 32));
-				}
-				else if(ObjectIdImpl.PLAYER.matches(color)) {
-					handler.add(new Player(xx * 32, yy * 32, keyInput));
-				}
-				else if(ObjectIdImpl.BOX.matches(color)) {
-					handler.add(new Box(xx * 32, yy * 32));
-
-				}
-				else if(ObjectIdImpl.ENEMY.matches(color)) {
-					handler.add(new Enemy(xx * 32, yy * 32));
-				}
-
-			}
-		}
-	}
-
-	private void start() {
+	public void start() {
 		isRunning = true;
 		thread = new Thread(this);
 		thread.start();
@@ -127,10 +91,13 @@ public class GameContainer implements Runnable {
 	 */
 	private void render() {
 		renderer.clear();
-		Graphics g = window.getImage().getGraphics();
+		final BufferedImage image = window.getImage();
+		Graphics g = image.getGraphics();
 		Graphics2D g2d = (Graphics2D) g;
 		/////
+		game.render(this, renderer);
 		g2d.translate(-camera.getX(), -camera.getY());
+
 		handler.render(g);
 		g2d.translate(camera.getX(), camera.getY());
 		/////
@@ -146,6 +113,7 @@ public class GameContainer implements Runnable {
 	 * Gets updated 60x/sec
 	 */
 	private void tick() {
+		game.update(this, 0);
 		camera.tick();
 		handler.tick();
 	}
@@ -154,11 +122,12 @@ public class GameContainer implements Runnable {
 		isRunning = false;
 	}
 
-	public Window getWindow() {
-		return window;
-	}
 
 	public KeyInput getKeyInput() {
 		return keyInput;
+	}
+
+	public Camera getCamera() {
+		return camera;
 	}
 }

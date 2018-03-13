@@ -1,4 +1,4 @@
-package de.ora.game.engine;
+package de.ora.game.engine.gfx;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
