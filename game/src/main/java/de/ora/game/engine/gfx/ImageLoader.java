@@ -8,13 +8,11 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class ImageLoader {
-	private Logger LOG = LoggerFactory.getLogger(this.getClass());
-	private BufferedImage image;
+	private static Logger LOG = LoggerFactory.getLogger(ImageLoader.class);
 
-	public BufferedImage load(String path) {
+	public static BufferedImage load(String path) {
 		try {
-			image = ImageIO.read(getClass().getClassLoader().getResource(path));
-			return image;
+			return ImageIO.read(ImageLoader.class.getClassLoader().getResource(path));
 		}
 		catch(IOException e) {
 			LOG.error("Could not load image: {}", path, e);

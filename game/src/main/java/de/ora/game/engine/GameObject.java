@@ -1,12 +1,21 @@
 package de.ora.game.engine;
 
+import de.ora.game.engine.gfx.SpriteSheet;
+
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 public abstract class GameObject {
 	protected int x, y;
 	protected float velX = 0, velY = 0;
 	public ObjectId id;
 	private Handler handler;
+	private SpriteSheet spriteSheet;
+
+	public GameObject(ObjectId id, int x, int y, SpriteSheet spriteSheet) {
+		this(id, x, y);
+		this.spriteSheet = spriteSheet;
+	}
 
 	public GameObject(ObjectId id, int x, int y) {
 		this.id = id;
@@ -30,7 +39,7 @@ public abstract class GameObject {
 	 *
 	 * @param g
 	 */
-	public abstract void render(Graphics g);
+	public abstract void render(Graphics2D g);
 
 	public abstract Rectangle getBounds();
 
@@ -76,5 +85,9 @@ public abstract class GameObject {
 
 	public Handler getHandler() {
 		return handler;
+	}
+
+	protected BufferedImage getImage(int col, int row) {
+		return spriteSheet.get(col, row, 32, 32);
 	}
 }

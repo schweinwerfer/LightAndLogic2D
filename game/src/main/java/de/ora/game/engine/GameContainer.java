@@ -17,6 +17,7 @@ public class GameContainer implements Runnable {
 	private final Window window;
 	private final Resources resources;
 	private Thread thread;
+	private final double UPDATE_CAP = 1.0 / 60.0; // max 60 fps
 	private final Renderer renderer;
 	private final Handler handler;
 	private final Camera camera;
@@ -26,13 +27,14 @@ public class GameContainer implements Runnable {
 	private float scale = 1.0f;
 	private boolean isRunning = false;
 	private BufferedImage level;
-	private int frames;
+	private int fps;
 
 
 	public GameContainer(AbstractGame game) {
 		this.game = game;
 		keyInput = new KeyInput();
-		window = new Window(WIDTH, HEIGHT, scale, "Wizard", this);
+
+		window = new Window(WIDTH, HEIGHT, scale, "GameOne", this);
 		renderer = new Renderer(window);
 		handler = new Handler();
 		camera = new Camera(0, 0);
@@ -55,12 +57,71 @@ public class GameContainer implements Runnable {
 
 	public void run() {
 
+		gameLoop2();
+	}
+
+	private void gameLoop2() {
+		isRunning = true;
+
+		boolean render = false;
+		double firstTime = 0;
+		double lastTime = System.nanoTime() / 1000000000.0;
+		double passedTime = 0;
+		double unprocessedTime = 0;
+
+		double frameTime = 0;
+		int frames = 0;
+		fps = 0;
+
+		while(isRunning) {
+			render = false;
+
+			// how much time has passed?
+			firstTime = System.nanoTime() / 1000000000.0;
+			passedTime = firstTime - lastTime;
+			lastTime = firstTime;
+
+			unprocessedTime += passedTime;
+			frameTime += passedTime;
+
+			while(unprocessedTime >= UPDATE_CAP) {
+				unprocessedTime -= UPDATE_CAP;
+				// TODO: update()
+				tick();
+				render = true; // only render, if we have updated
+
+				if(frameTime >= 1.0) {
+					frameTime = 0;
+					fps = frames;
+					frames = 0;
+				}
+			}
+
+			if(render) {
+				// TODO: render()
+				render();
+				frames++;
+			}
+			else {
+				try {
+					Thread.sleep(1);
+				}
+				catch(InterruptedException e) {
+					LOG.warn("Interrupted sleep", e);
+				}
+			}
+		}
+
+		stop();
+	}
+
+	private void gameLoop1() {
 		long lastTime = System.nanoTime();
 		double amountOfTicks = 60.0;
 		double ns = 1000000000 / amountOfTicks;
 		double delta = 0;
 		long timer = System.currentTimeMillis();
-		frames = 0;
+		fps = 0;
 
 		while(isRunning) {
 			long now = System.nanoTime();
@@ -74,11 +135,11 @@ public class GameContainer implements Runnable {
 			}
 
 			render();
-			frames++;
+			fps++;
 
 			if(System.currentTimeMillis() - timer > 1000) {
 				timer += 1000;
-				frames = 0;
+				fps = 0;
 				// updates=0;
 			}
 		}
@@ -91,21 +152,19 @@ public class GameContainer implements Runnable {
 	 */
 	private void render() {
 		renderer.clear();
-		final BufferedImage image = window.getImage();
-		Graphics g = image.getGraphics();
-		Graphics2D g2d = (Graphics2D) g;
+		Graphics2D g2d = renderer.getG2d();
 		/////
+		renderer.translateA(camera);
 		game.render(this, renderer);
-		g2d.translate(-camera.getX(), -camera.getY());
-
-		handler.render(g);
-		g2d.translate(camera.getX(), camera.getY());
+		handler.render(g2d);
+		renderer.translateB(camera);
 		/////
-		g.setColor(Color.WHITE);
-		g.drawString(frames + " fps", 10, 20);
+
+		g2d.setColor(Color.WHITE);
+		g2d.drawString(fps + " fps", 10, 20);
 		window.render();
 
-		g.dispose();
+		renderer.disposeGraphics();
 	}
 
 	/**

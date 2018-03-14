@@ -8,12 +8,14 @@ import java.awt.image.BufferedImage;
 
 public class Resources {
 
+	private final SpriteSheet spriteSheet;
 	private Handler handler;
 
 	public Resources(Handler handler) {
 		this.handler = handler;
 		ImageLoader imageLoader = new ImageLoader();
 		BufferedImage level = imageLoader.load("levels/level1.png");
+		spriteSheet = new SpriteSheet(ImageLoader.load("images/spritesheet.png"));
 		loadLevel(level);
 	}
 
@@ -35,13 +37,13 @@ public class Resources {
 				}
 
 				if(ObjectIdImpl.BLOCK.matches(color)) {
-					handler.add(new Block(xx * 32, yy * 32));
+					handler.add(new Block(xx * 32, yy * 32, spriteSheet));
 				}
 				else if(ObjectIdImpl.PLAYER.matches(color)) {
 					handler.add(new Player(xx * 32, yy * 32));
 				}
 				else if(ObjectIdImpl.BOX.matches(color)) {
-					handler.add(new Box(xx * 32, yy * 32));
+					handler.add(new Box(xx * 32, yy * 32, spriteSheet));
 
 				}
 				else if(ObjectIdImpl.ENEMY.matches(color)) {

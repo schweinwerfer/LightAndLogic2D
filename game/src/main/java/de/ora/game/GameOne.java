@@ -27,6 +27,7 @@ public class GameOne extends AbstractGame {
 	@Override
 	public void render(GameContainer game, Renderer renderer) {
 		camera = game.getCamera();
-		renderer.draw(image, (int) -camera.getX(), (int) -camera.getY());
+		//renderer.draw(image, (int) -camera.getX()+32, (int) -camera.getY()+32);
+		renderer.draw(image, 32, 32);
 	}
 }

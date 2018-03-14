@@ -8,10 +8,10 @@ import java.awt.geom.Point2D;
 public class Bullet extends GameObject {
 	public static final int BULLET_RECHARGE_TIME = 25;
 	private int range = 250;
-	private int damage = 20;
+	private int damage = 100;
 	private int radius = 5;
-	private int lightRadius = 30;
-	private boolean penetrates = false;
+	private int lightRadius = 20;
+	private boolean penetrates = true;
 	private Point2D origin;
 
 	public Bullet(ObjectIdImpl id, int x, int y) {
@@ -29,7 +29,7 @@ public class Bullet extends GameObject {
 	}
 
 	@Override
-	public void render(Graphics g) {
+	public void render(Graphics2D g) {
 		Graphics2D g2d = (Graphics2D) g;
 		final float diff = lightRadius * 0.0125f;
 		Point2D center = new Point2D.Float(x + diff, y + diff);

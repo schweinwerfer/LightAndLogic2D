@@ -30,7 +30,7 @@ public class Enemy extends GameObject {
 	}
 
 	@Override
-	public void render(Graphics g) {
+	public void render(Graphics2D g) {
 		g.setColor(Color.MAGENTA);
 		g.drawRoundRect(x, y, 32, 32, 2, 2);
 		g.drawString(hp + "", x + 2, y + 10);

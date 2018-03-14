@@ -12,7 +12,7 @@ public class Handler {
 	private Player player;
 
 
-	public void render(Graphics g) {
+	public void render(Graphics2D g) {
 		for(final GameObject gameObject : gameObjects) {
 			gameObject.render(g);
 		}
