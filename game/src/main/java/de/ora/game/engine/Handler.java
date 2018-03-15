@@ -19,9 +19,9 @@ public class Handler {
 		}
 	}
 
-	public void tick() {
+	public void update(double passedTime) {
 		for(final GameObject gameObject : gameObjects) {
-			gameObject.tick();
+			gameObject.update(passedTime);
 		}
 	}
 

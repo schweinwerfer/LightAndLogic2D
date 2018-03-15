@@ -10,6 +10,7 @@ public abstract class GameObject {
 	protected int zBuff = 0;
 	protected int x, y;
 	protected float velX = 0, velY = 0;
+	protected float accelerationX = 1, accelerationY = 1;
 	public ObjectId id;
 	private Handler handler;
 	private SpriteSheet spriteSheet;
@@ -28,14 +29,15 @@ public abstract class GameObject {
 
 	/**
 	 * Update routine
+	 * @param passedTime
 	 */
-	public void tick() {
-		internalTick();
-		x += velX;
-		y += velY;
+	public void update(double passedTime) {
+		internalUpdate(passedTime);
+		x += velX * accelerationX;
+		y += velY * accelerationY;
 	}
 
-	protected abstract void internalTick();
+	protected abstract void internalUpdate(double passedTime);
 
 	/**
 	 * Render routine

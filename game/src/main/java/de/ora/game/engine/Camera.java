@@ -10,7 +10,7 @@ public class Camera {
 		this.y = y;
 	}
 
-	public void tick() {
+	public void update() {
 		if(gameObject == null) return;
 		x += (gameObject.getX() - x - GameContainer.WIDTH / 2) * 0.05f;
 		y += (gameObject.getY() - y - GameContainer.HEIGHT / 2) * 0.05f;

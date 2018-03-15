@@ -85,7 +85,7 @@ public class GameContainer implements Runnable {
 
 			while(unprocessedTime >= UPDATE_CAP) {
 				unprocessedTime -= UPDATE_CAP;
-				tick();
+				update(passedTime);
 				render = true; // only render, if we have updated
 
 				if(frameTime >= 1.0) {
@@ -107,41 +107,43 @@ public class GameContainer implements Runnable {
 					LOG.warn("Interrupted sleep", e);
 				}
 			}
+
+//			LOG.debug(passedTime + "");
 		}
 
 		stop();
 	}
 
-	private void gameLoop1() {
-		long lastTime = System.nanoTime();
-		double amountOfTicks = 60.0;
-		double ns = 1000000000 / amountOfTicks;
-		double delta = 0;
-		long timer = System.currentTimeMillis();
-		fps = 0;
-
-		while(isRunning) {
-			long now = System.nanoTime();
-			delta += (now - lastTime) / ns;
-			lastTime = now;
-
-			while(delta >= 1) {
-				tick();
-				// updates++;
-				delta--;
-			}
-
-			render();
-			fps++;
-
-			if(System.currentTimeMillis() - timer > 1000) {
-				timer += 1000;
-				fps = 0;
-				// updates=0;
-			}
-		}
-		stop();
-	}
+//	private void gameLoop1() {
+//		long lastTime = System.nanoTime();
+//		double amountOfTicks = 60.0;
+//		double ns = 1000000000 / amountOfTicks;
+//		double delta = 0;
+//		long timer = System.currentTimeMillis();
+//		fps = 0;
+//
+//		while(isRunning) {
+//			long now = System.nanoTime();
+//			delta += (now - lastTime) / ns;
+//			lastTime = now;
+//
+//			while(delta >= 1) {
+//				update(passedTime);
+//				// updates++;
+//				delta--;
+//			}
+//
+//			render();
+//			fps++;
+//
+//			if(System.currentTimeMillis() - timer > 1000) {
+//				timer += 1000;
+//				fps = 0;
+//				// updates=0;
+//			}
+//		}
+//		stop();
+//	}
 
 	/**
 	 * Renders all things in the game
@@ -167,11 +169,12 @@ public class GameContainer implements Runnable {
 	/**
 	 * Updates all things in the game
 	 * Gets updated 60x/sec
+	 * @param passedTime
 	 */
-	private void tick() {
-		game.update(this, 0);
-		camera.tick();
-		handler.tick();
+	private void update(double passedTime) {
+		game.update(this, passedTime);
+		camera.update();
+		handler.update(passedTime);
 	}
 
 	public void exit() {

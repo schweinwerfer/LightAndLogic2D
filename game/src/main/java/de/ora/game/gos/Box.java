@@ -15,7 +15,7 @@ public class Box extends GameObject {
 		image = getImage(2, 1);
 	}
 
-	public void internalTick() {
+	public void internalUpdate(double passedTime) {
 
 	}
 

@@ -16,7 +16,7 @@ public class Block extends GameObject {
 		image = getImage(1, 1);
 	}
 
-	public void internalTick() {
+	public void internalUpdate(double passedTime) {
 
 	}
 

@@ -2,10 +2,10 @@ package de.ora.game.ext;
 
 import de.ora.game.engine.Camera;
 import de.ora.game.engine.Window;
-import de.ora.game.engine.gfx.AmbientLight;
+import de.ora.game.engine.gfx.light.AmbientLight;
 import de.ora.game.engine.gfx.Image;
 import de.ora.game.engine.gfx.ImageTile;
-import de.ora.game.engine.gfx.Light;
+import de.ora.game.engine.gfx.light.Light;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

@@ -2,8 +2,8 @@ package de.ora.game.gos;
 
 import de.ora.game.engine.GameObject;
 import de.ora.game.engine.KeyInput;
-import de.ora.game.engine.gfx.Light;
-import de.ora.game.engine.gfx.RadialLight;
+import de.ora.game.engine.gfx.light.Light;
+import de.ora.game.engine.gfx.light.RadialLight;
 import de.ora.game.ext.Renderer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,17 +15,17 @@ public class Player extends GameObject {
 	private KeyInput controller;
 	private int speed = 3;
 
-	private int bulletRechargeTimeout = 0;
+	private int bulletRechargeTimeout = 10;
 	private PlayerOrientation orientation;
 	private Light light;
 
 	public Player(int x, int y) {
 		super(ObjectIdImpl.PLAYER, x, y, 3);
 		orientation = PlayerOrientation.RIGHT;
-		light = new RadialLight(128, Color.WHITE);
+		light = new RadialLight(64, Color.LIGHT_GRAY);
 	}
 
-	protected void internalTick() {
+	protected void internalUpdate(double passedTime) {
 
 		collision();
 
@@ -68,24 +68,24 @@ public class Player extends GameObject {
 
 				switch(orientation) {
 					case UP:
-						xAdd = 12;
+						xAdd = 16;
 						yAdd = 0;
-						velY = -5;
+						velY = -1;
 						break;
 					case DOWN:
-						xAdd = 12;
+						xAdd = 16;
 						yAdd = 32;
-						velY = 5;
+						velY = 1;
 						break;
 					case LEFT:
 						xAdd = 0;
-						yAdd = 12;
-						velX = -5;
+						yAdd = 16;
+						velX = -1;
 						break;
 					default:
 						xAdd = 32;
-						yAdd = 12;
-						velX = 5;
+						yAdd = 16;
+						velX = 1;
 						break;
 				}
 				final Bullet bullet = new Bullet(ObjectIdImpl.BULLET, x + xAdd, y + yAdd);
@@ -97,7 +97,9 @@ public class Player extends GameObject {
 			}
 		}
 
-		if(bulletRechargeTimeout > 0) bulletRechargeTimeout--;
+		if(bulletRechargeTimeout > 0) {
+			bulletRechargeTimeout -= passedTime;
+		}
 	}
 
 	private void collision() {

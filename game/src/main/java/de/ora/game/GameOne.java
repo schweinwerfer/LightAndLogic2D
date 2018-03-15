@@ -4,10 +4,8 @@ import de.ora.game.engine.AbstractGame;
 import de.ora.game.engine.Camera;
 import de.ora.game.engine.GameContainer;
 import de.ora.game.engine.gfx.Image;
-import de.ora.game.engine.gfx.Light;
+import de.ora.game.engine.gfx.light.Light;
 import de.ora.game.ext.Renderer;
-
-import java.awt.*;
 
 public class GameOne extends AbstractGame {
 	private Image image;
@@ -25,7 +23,7 @@ public class GameOne extends AbstractGame {
 	}
 
 	@Override
-	public void update(GameContainer game, float dt) {
+	public void update(GameContainer game, double passedTime) {
 
 	}
 

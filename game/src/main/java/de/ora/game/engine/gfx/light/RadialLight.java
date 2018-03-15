@@ -1,4 +1,4 @@
-package de.ora.game.engine.gfx;
+package de.ora.game.engine.gfx.light;
 
 import java.awt.*;
 import java.awt.geom.Point2D;

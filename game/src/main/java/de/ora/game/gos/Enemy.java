@@ -1,8 +1,8 @@
 package de.ora.game.gos;
 
 import de.ora.game.engine.GameObject;
-import de.ora.game.engine.gfx.Light;
-import de.ora.game.engine.gfx.RadialLight;
+import de.ora.game.engine.gfx.light.Light;
+import de.ora.game.engine.gfx.light.RadialLight;
 import de.ora.game.ext.Renderer;
 
 import java.awt.*;
@@ -21,7 +21,7 @@ public class Enemy extends GameObject {
 	}
 
 	@Override
-	protected void internalTick() {
+	protected void internalUpdate(double passedTime) {
 		collision();
 		if(hp <= 0) {
 			getHandler().remove(this);
