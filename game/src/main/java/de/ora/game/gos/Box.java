@@ -2,6 +2,7 @@ package de.ora.game.gos;
 
 import de.ora.game.engine.GameObject;
 import de.ora.game.engine.gfx.SpriteSheet;
+import de.ora.game.ext.Renderer;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -19,7 +20,7 @@ public class Box extends GameObject {
 	}
 
 	@Override
-	public void render(Graphics2D g) {
+	public void render(Graphics2D g, Renderer renderer) {
 		g.drawImage(image, x, y, null);
 	}
 

@@ -35,9 +35,9 @@ public class GameContainer implements Runnable {
 		keyInput = new KeyInput();
 
 		window = new Window(WIDTH, HEIGHT, scale, "GameOne", this);
-		renderer = new Renderer(window);
-		handler = new Handler();
 		camera = new Camera(0, 0);
+		renderer = new Renderer(window, camera);
+		handler = new Handler();
 		resources = new Resources(handler);
 		final Player player = handler.getPlayer();
 		player.addController(keyInput);
@@ -56,7 +56,6 @@ public class GameContainer implements Runnable {
 	}
 
 	public void run() {
-
 		gameLoop2();
 	}
 
@@ -86,7 +85,6 @@ public class GameContainer implements Runnable {
 
 			while(unprocessedTime >= UPDATE_CAP) {
 				unprocessedTime -= UPDATE_CAP;
-				// TODO: update()
 				tick();
 				render = true; // only render, if we have updated
 
@@ -98,7 +96,6 @@ public class GameContainer implements Runnable {
 			}
 
 			if(render) {
-				// TODO: render()
 				render();
 				frames++;
 			}
@@ -154,12 +151,12 @@ public class GameContainer implements Runnable {
 		renderer.clear();
 		Graphics2D g2d = renderer.getG2d();
 		/////
-		renderer.translateA(camera);
+		renderer.translateA();
 		game.render(this, renderer);
-		handler.render(g2d);
-		renderer.translateB(camera);
+		handler.render(g2d, renderer);
+		renderer.process();
+		renderer.translateB();
 		/////
-
 		g2d.setColor(Color.WHITE);
 		g2d.drawString(fps + " fps", 10, 20);
 		window.render();

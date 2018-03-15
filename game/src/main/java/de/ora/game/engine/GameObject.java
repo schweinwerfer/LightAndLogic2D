@@ -1,6 +1,7 @@
 package de.ora.game.engine;
 
 import de.ora.game.engine.gfx.SpriteSheet;
+import de.ora.game.ext.Renderer;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -38,8 +39,9 @@ public abstract class GameObject {
 	 * Render routine
 	 *
 	 * @param g
+	 * @param renderer
 	 */
-	public abstract void render(Graphics2D g);
+	public abstract void render(Graphics2D g, Renderer renderer);
 
 	public abstract Rectangle getBounds();
 

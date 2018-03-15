@@ -4,14 +4,19 @@ import de.ora.game.engine.AbstractGame;
 import de.ora.game.engine.Camera;
 import de.ora.game.engine.GameContainer;
 import de.ora.game.engine.gfx.Image;
+import de.ora.game.engine.gfx.Light;
 import de.ora.game.ext.Renderer;
+
+import java.awt.*;
 
 public class GameOne extends AbstractGame {
 	private Image image;
 	private Camera camera;
+	private Light light;
 
 	public GameOne() {
-		image = new Image("images/star.png");
+//		image = new Image("images/star.png");
+
 	}
 
 	public static void main(String[] args) {
@@ -28,6 +33,6 @@ public class GameOne extends AbstractGame {
 	public void render(GameContainer game, Renderer renderer) {
 		camera = game.getCamera();
 		//renderer.draw(image, (int) -camera.getX()+32, (int) -camera.getY()+32);
-		renderer.draw(image, 32, 32);
+
 	}
 }

@@ -1,12 +1,15 @@
 package de.ora.game.gos;
 
 import de.ora.game.engine.GameObject;
+import de.ora.game.engine.gfx.RadialLight;
+import de.ora.game.ext.Renderer;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
 
 public class Bullet extends GameObject {
 	public static final int BULLET_RECHARGE_TIME = 25;
+	private final RadialLight light;
 	private int range = 250;
 	private int damage = 100;
 	private int radius = 5;
@@ -17,6 +20,7 @@ public class Bullet extends GameObject {
 	public Bullet(ObjectIdImpl id, int x, int y) {
 		super(id, x, y);
 		origin = new Point(x, y);
+		light = new RadialLight(20, Color.WHITE);
 	}
 
 	@Override
@@ -29,17 +33,9 @@ public class Bullet extends GameObject {
 	}
 
 	@Override
-	public void render(Graphics2D g) {
-		Graphics2D g2d = (Graphics2D) g;
-		final float diff = lightRadius * 0.0125f;
-		Point2D center = new Point2D.Float(x + diff, y + diff);
-		float[] dist = {0.4f, 1.0f};
-		Color[] colors = {Color.YELLOW, Color.BLACK};
-		RadialGradientPaint p = new RadialGradientPaint(center, lightRadius, dist, colors, MultipleGradientPaint.CycleMethod.NO_CYCLE);
-		g2d.setPaint(p);
-		g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
-		g2d.fillOval(x - lightRadius, y - lightRadius, lightRadius * 2, lightRadius * 2);
-		g.setColor(Color.YELLOW);
+	public void render(Graphics2D g, Renderer renderer) {
+		renderer.renderLight(light, x, y);
+		g.setColor(Color.WHITE);
 		g.fillOval(x - radius, y - radius, radius * 2, radius * 2);
 	}
 

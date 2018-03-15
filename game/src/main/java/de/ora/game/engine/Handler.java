@@ -1,5 +1,6 @@
 package de.ora.game.engine;
 
+import de.ora.game.ext.Renderer;
 import de.ora.game.gos.ObjectIdImpl;
 import de.ora.game.gos.Player;
 
@@ -12,9 +13,9 @@ public class Handler {
 	private Player player;
 
 
-	public void render(Graphics2D g) {
+	public void render(Graphics2D g, Renderer renderer) {
 		for(final GameObject gameObject : gameObjects) {
-			gameObject.render(g);
+			gameObject.render(g, renderer);
 		}
 	}
 

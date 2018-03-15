@@ -2,6 +2,9 @@ package de.ora.game.gos;
 
 import de.ora.game.engine.GameObject;
 import de.ora.game.engine.KeyInput;
+import de.ora.game.engine.gfx.Light;
+import de.ora.game.engine.gfx.RadialLight;
+import de.ora.game.ext.Renderer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,10 +17,12 @@ public class Player extends GameObject {
 
 	private int bulletRechargeTimeout = 0;
 	private PlayerOrientation orientation;
+	private Light light;
 
 	public Player(int x, int y) {
 		super(ObjectIdImpl.PLAYER, x, y);
 		orientation = PlayerOrientation.RIGHT;
+		light = new RadialLight(128, Color.WHITE);
 	}
 
 	protected void internalTick() {
@@ -107,7 +112,9 @@ public class Player extends GameObject {
 	}
 
 	@Override
-	public void render(Graphics2D g) {
+	public void render(Graphics2D g, Renderer renderer) {
+		renderer.renderLight(light, x + 16, y + 16);
+
 		g.setColor(Color.WHITE);
 		g.fillRect(x, y, 32, 32);
 
@@ -128,6 +135,8 @@ public class Player extends GameObject {
 				g.fillRect(x + 24, y + 8, 8, 16);
 				break;
 		}
+
+
 	}
 
 
