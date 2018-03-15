@@ -1,6 +1,7 @@
 package de.ora.game.gos;
 
 import de.ora.game.engine.GameObject;
+import de.ora.game.engine.gfx.Light;
 import de.ora.game.engine.gfx.RadialLight;
 import de.ora.game.ext.Renderer;
 
@@ -9,7 +10,7 @@ import java.awt.geom.Point2D;
 
 public class Bullet extends GameObject {
 	public static final int BULLET_RECHARGE_TIME = 25;
-	private final RadialLight light;
+	private final Light light;
 	private int range = 250;
 	private int damage = 100;
 	private int radius = 5;
@@ -18,9 +19,9 @@ public class Bullet extends GameObject {
 	private Point2D origin;
 
 	public Bullet(ObjectIdImpl id, int x, int y) {
-		super(id, x, y);
+		super(id, x, y, 3);
 		origin = new Point(x, y);
-		light = new RadialLight(20, Color.WHITE);
+		light = new RadialLight(lightRadius, Color.RED);
 	}
 
 	@Override
@@ -35,7 +36,7 @@ public class Bullet extends GameObject {
 	@Override
 	public void render(Graphics2D g, Renderer renderer) {
 		renderer.renderLight(light, x, y);
-		g.setColor(Color.WHITE);
+		g.setColor(Color.YELLOW);
 		g.fillOval(x - radius, y - radius, radius * 2, radius * 2);
 	}
 

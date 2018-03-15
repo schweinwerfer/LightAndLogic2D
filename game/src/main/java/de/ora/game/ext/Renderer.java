@@ -2,6 +2,7 @@ package de.ora.game.ext;
 
 import de.ora.game.engine.Camera;
 import de.ora.game.engine.Window;
+import de.ora.game.engine.gfx.AmbientLight;
 import de.ora.game.engine.gfx.Image;
 import de.ora.game.engine.gfx.ImageTile;
 import de.ora.game.engine.gfx.Light;
@@ -19,7 +20,7 @@ public class Renderer {
 	private int[] lm; // lightmap
 	private final BufferedImage screenImage;
 	private int[] lb; // lightblock
-	private Color ambientColor = Light.AMBIENT_COLOR;
+	private Color ambientColor = AmbientLight.AMBIENT_COLOR;
 	private Color backgroundColor = new Color(0x1B5983);
 	private Graphics2D g2dLm;
 	private Graphics2D g2d;
@@ -121,24 +122,16 @@ public class Renderer {
 		}
 	}
 
-	public void renderLight(Light light, int x, int y) {
-//		for(int x = 0; x < light.getDiameter(); x++) {
-//			for(int y = 0; y < light.getDiameter(); y++) {
-//				setLightMap(x + xx, y + yy, light.getLm()[x + y * light.getDiameter()]);
-//			}
-//		}
+	public void renderLight(Light light, int xx, int yy) {
+		int[] llm = light.getLm();
+		float xNew = (int) (xx - camera.getX() - light.getRadius());
+		float yNew = (int) (yy - camera.getY() - light.getRadius());
 
-		light.render(getG2dLm(), x, y);
-
-//		try {
-//
-//			graphics.dispose();
-//			ImageIO.write(lightMapImage, "png", new File("foo123456.png"));
-//			System.exit(0);
-//		}
-//		catch(IOException e) {
-//			e.printStackTrace();
-//		}
+		for(int x = 0; x < light.getDiameter(); x++) {
+			for(int y = 0; y < light.getDiameter(); y++) {
+				setLightMap((int) (x + xNew), (int) (y + yNew), llm[x + y * light.getDiameter()]);
+			}
+		}
 	}
 
 	public void setLightMap(int x, int y, int value) {
@@ -153,7 +146,7 @@ public class Renderer {
 		int maxBlue = Math.max(baseColor & 0xff, value & 0xff);
 
 
-		p[x + y * pW] = (maxRed << 16 | maxGreen << 8 | maxBlue);
+		lm[x + y * pW] = (maxRed << 16 | maxGreen << 8 | maxBlue);
 	}
 
 	public void translateA() {

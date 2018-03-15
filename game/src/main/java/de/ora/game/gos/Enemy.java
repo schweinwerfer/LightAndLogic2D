@@ -1,6 +1,7 @@
 package de.ora.game.gos;
 
 import de.ora.game.engine.GameObject;
+import de.ora.game.engine.gfx.Light;
 import de.ora.game.engine.gfx.RadialLight;
 import de.ora.game.ext.Renderer;
 
@@ -9,13 +10,13 @@ import java.util.Random;
 
 public class Enemy extends GameObject {
 
-	private final RadialLight light;
+	private final Light light;
 	Random random = new Random();
 	int choose = 0;
 	int hp = 100;
 
 	public Enemy(int x, int y) {
-		super(ObjectIdImpl.ENEMY, x, y);
+		super(ObjectIdImpl.ENEMY, x, y, 3);
 		light = new RadialLight(64, Color.MAGENTA);
 	}
 

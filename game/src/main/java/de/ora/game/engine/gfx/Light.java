@@ -3,7 +3,6 @@ package de.ora.game.engine.gfx;
 import java.awt.*;
 
 public abstract class Light {
-	public final static Color AMBIENT_COLOR = new Color(0x666666);
 	private int radius;
 	private int diameter;
 
@@ -20,5 +19,5 @@ public abstract class Light {
 		return diameter;
 	}
 
-	public abstract void render(Graphics2D graphics2D, int x, int y);
+	public abstract int[] getLm();
 }

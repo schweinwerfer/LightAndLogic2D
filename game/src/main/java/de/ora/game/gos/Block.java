@@ -12,7 +12,7 @@ public class Block extends GameObject {
 	private final BufferedImage image;
 
 	public Block(int x, int y, SpriteSheet spriteSheet) {
-		super(ObjectIdImpl.BLOCK, x, y, spriteSheet);
+		super(ObjectIdImpl.BLOCK, x, y,1, spriteSheet);
 		image = getImage(1, 1);
 	}
 

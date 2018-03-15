@@ -20,7 +20,7 @@ public class Player extends GameObject {
 	private Light light;
 
 	public Player(int x, int y) {
-		super(ObjectIdImpl.PLAYER, x, y);
+		super(ObjectIdImpl.PLAYER, x, y, 3);
 		orientation = PlayerOrientation.RIGHT;
 		light = new RadialLight(128, Color.WHITE);
 	}

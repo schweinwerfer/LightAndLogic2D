@@ -7,21 +7,23 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public abstract class GameObject {
+	protected int zBuff = 0;
 	protected int x, y;
 	protected float velX = 0, velY = 0;
 	public ObjectId id;
 	private Handler handler;
 	private SpriteSheet spriteSheet;
 
-	public GameObject(ObjectId id, int x, int y, SpriteSheet spriteSheet) {
-		this(id, x, y);
+	public GameObject(ObjectId id, int x, int y, int zBuff, SpriteSheet spriteSheet) {
+		this(id, x, y, zBuff);
 		this.spriteSheet = spriteSheet;
 	}
 
-	public GameObject(ObjectId id, int x, int y) {
+	public GameObject(ObjectId id, int x, int y, int zBuff) {
 		this.id = id;
 		this.x = x;
 		this.y = y;
+		this.zBuff = zBuff;
 	}
 
 	/**
@@ -91,5 +93,9 @@ public abstract class GameObject {
 
 	protected BufferedImage getImage(int col, int row) {
 		return spriteSheet.get(col, row, 32, 32);
+	}
+
+	public int getzBuff() {
+		return zBuff;
 	}
 }

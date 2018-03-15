@@ -11,7 +11,7 @@ public class Box extends GameObject {
 	private BufferedImage image;
 
 	public Box(int x, int y, SpriteSheet spriteSheet) {
-		super(ObjectIdImpl.BOX, x, y, spriteSheet);
+		super(ObjectIdImpl.BOX, x, y, 2,spriteSheet);
 		image = getImage(2, 1);
 	}
 
