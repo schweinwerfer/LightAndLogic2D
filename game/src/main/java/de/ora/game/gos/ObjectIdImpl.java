@@ -9,7 +9,8 @@ public enum ObjectIdImpl implements ObjectId {
 	BLOCK(new Color(127, 127, 127)),
 	BULLET(null),
 	ENEMY(new Color(237, 28, 36)),
-	BOX(new Color(185, 122, 87));
+	BOX(new Color(185, 122, 87)),
+	FLOOR(Color.BLACK);
 
 	private Color mapCode;
 

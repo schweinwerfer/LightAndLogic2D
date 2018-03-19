@@ -32,22 +32,27 @@ public class Resources {
 
 				Color color = new Color(red, green, blue);
 
-				if(Color.BLACK.equals(color)) {
-					continue;
-				}
+//				if(Color.BLACK.equals(color)) {
+//					continue;
+//				}
 
 				if(ObjectIdImpl.BLOCK.matches(color)) {
 					handler.add(new Block(xx * 32, yy * 32, spriteSheet));
 				}
 				else if(ObjectIdImpl.PLAYER.matches(color)) {
 					handler.add(new Player(xx * 32, yy * 32));
+					handler.add(new Floor(xx * 32, yy * 32, spriteSheet));
 				}
 				else if(ObjectIdImpl.BOX.matches(color)) {
 					handler.add(new Box(xx * 32, yy * 32, spriteSheet));
-
+					handler.add(new Floor(xx * 32, yy * 32, spriteSheet));
 				}
 				else if(ObjectIdImpl.ENEMY.matches(color)) {
 					handler.add(new Enemy(xx * 32, yy * 32));
+					handler.add(new Floor(xx * 32, yy * 32, spriteSheet));
+				}
+				else if(ObjectIdImpl.FLOOR.matches(color)) {
+					handler.add(new Floor(xx * 32, yy * 32, spriteSheet));
 				}
 
 			}
