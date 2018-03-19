@@ -13,7 +13,7 @@ import java.awt.*;
 public class Player extends GameObject {
 	private static final Logger LOG = LoggerFactory.getLogger(Player.class);
 	private KeyInput controller;
-	private int speed = 3;
+	private int speed = 4;
 
 	private int bulletRechargeTimeout = 10;
 	private PlayerOrientation orientation;
@@ -108,6 +108,10 @@ public class Player extends GameObject {
 				if(getBounds().intersects(gameObject.getBounds())) {
 					x += velX * -1;
 					y += velY * -1;
+				}
+			}
+			else if(gameObject.id == ObjectIdImpl.BOX) {
+				if(getBounds().intersects(gameObject.getBounds())) {
 				}
 			}
 		}

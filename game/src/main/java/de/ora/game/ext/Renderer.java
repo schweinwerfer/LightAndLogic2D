@@ -1,18 +1,23 @@
 package de.ora.game.ext;
 
 import de.ora.game.engine.Camera;
+import de.ora.game.engine.GameObject;
 import de.ora.game.engine.Window;
-import de.ora.game.engine.gfx.light.AmbientLight;
 import de.ora.game.engine.gfx.Image;
 import de.ora.game.engine.gfx.ImageTile;
+import de.ora.game.engine.gfx.light.AmbientLight;
 import de.ora.game.engine.gfx.light.Light;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
+import java.util.List;
 
 public class Renderer {
 	private final static Color INVISIBLE = new Color(0xffff00ff);
+	private final static Logger LOG = LoggerFactory.getLogger(Renderer.class);
 	private final Camera camera;
 	private int pW, pH;
 	private int[] p;
@@ -59,8 +64,10 @@ public class Renderer {
 		p[x + y * pW] = value;
 	}
 
-	public void draw(ImageTile image, int offX, int offY, int tileX, int tileY) {
+	public void draw(ImageTile image, int offXIn, int offYIn, int tileX, int tileY) {
 		// Don't render images outside screen
+		int offX = (int) (offXIn - camera.getX());
+		int offY = (int) (offYIn - camera.getY());
 		if(offX < -image.getW()) return;
 		if(offY < -image.getH()) return;
 		if(offX >= pW) return;
@@ -84,8 +91,10 @@ public class Renderer {
 		}
 	}
 
-	public void draw(Image image, int offX, int offY) {
+	public void draw(Image image, int offXIn, int offYIn) {
 		// Don't render images outside screen
+		int offX = (int) (offXIn - camera.getX());
+		int offY = (int) (offYIn - camera.getY());
 		if(offX < -image.getW()) return;
 		if(offY < -image.getH()) return;
 		if(offX >= pW) return;
@@ -114,6 +123,9 @@ public class Renderer {
 			float r = ((lm[i] >> 16) & 255) / 255f;
 			float g = ((lm[i] >> 8) & 255) / 255f;
 			float b = (lm[i] & 255) / 255f;
+//			float r = ((lb[i] >> 16) & 255) / 255f;
+//			float g = ((lb[i] >> 8) & 255) / 255f;
+//			float b = (lb[i] & 255) / 255f;
 
 			p[i] =
 				(int) (((p[i] >> 16) & 255) * r) << 16 |
@@ -124,17 +136,89 @@ public class Renderer {
 
 	public void renderLight(Light light, int xx, int yy) {
 		int[] llm = light.getLm();
-		float xNew = (int) (xx - camera.getX() - light.getRadius());
-		float yNew = (int) (yy - camera.getY() - light.getRadius());
+		int xNew = (int) (xx - camera.getX() - light.getRadius());
+		int yNew = (int) (yy - camera.getY() - light.getRadius());
 
-		for(int x = 0; x < light.getDiameter(); x++) {
-			for(int y = 0; y < light.getDiameter(); y++) {
-				setLightMap((int) (x + xNew), (int) (y + yNew), llm[x + y * light.getDiameter()]);
+		drawLight(light, xNew + light.getRadius(), yNew + light.getRadius());
+
+//		for(int x = 0; x < light.getDiameter(); x++) {
+//			for(int y = 0; y < light.getDiameter(); y++) {
+//
+//				setLightMap((int) (x + xNew), (int) (y + yNew), llm[x + y * light.getDiameter()]);
+//			}
+//		}
+	}
+
+	public void renderLightBlock(double xIn, double yIn, double width, double height) {
+		float xNew = (int) (xIn - camera.getX());
+		float yNew = (int) (yIn - camera.getY());
+
+		for(int x = 0; x < width; x++) {
+			for(int y = 0; y < height; y++) {
+				setLightBlockMap((int) (x + xNew), (int) (y + yNew), 1);
 			}
 		}
 	}
 
-	public void setLightMap(int x, int y, int value) {
+	public void drawLight(Light light, int offX, int offY) {
+		for(int i = 0; i < light.getDiameter(); i++) {
+			drawLightLine(light, light.getRadius(), light.getRadius(), i, 0, offX, offY);
+			drawLightLine(light, light.getRadius(), light.getRadius(), i, light.getDiameter(), offX, offY);
+			drawLightLine(light, light.getRadius(), light.getRadius(), 0, i, offX, offY);
+			drawLightLine(light, light.getRadius(), light.getRadius(), light.getDiameter(), i, offX, offY);
+		}
+	}
+
+	private void drawLightLine(Light light, int x0, int y0, int x1, int y1, int offX, int offY) {
+		int dx = Math.abs(x1 - x0);
+		int dy = Math.abs(y1 - y0);
+
+		int sx = x0 < x1 ? 1 : -1;
+		int sy = y0 < y1 ? 1 : -1;
+
+		int err = dx - dy;
+		int e2;
+
+		while(true) {
+
+			final int radius = light.getRadius();
+			int screenX = x0 - radius + offX;
+			int screenY = y0 - radius + offY;
+
+			if(screenX < 0 || screenX >= pW || screenY < 0 || screenY >= pH) {
+				return;
+			}
+
+			int lightColor = light.getLightValue(x0, y0);
+			if(lightColor == 0) {
+				return;
+			}
+
+			if(lb[screenX + screenY * pW] == 1) {
+				return;
+			}
+
+			setLightMap(screenX, screenY, lightColor);
+
+			if(x0 == x1 && y0 == y1) {
+				break;
+			}
+
+			e2 = 2 * err;
+
+			if(e2 > -1 * dy) {
+				err -= dy;
+				x0 += sx;
+			}
+
+			if(e2 < dx) {
+				err += dx;
+				y0 += sy;
+			}
+		}
+	}
+
+	private void setLightMap(int x, int y, int value) {
 		if(x < 0 || x >= pW || y < 0 || y >= pH) {
 			return;
 		}
@@ -147,6 +231,13 @@ public class Renderer {
 
 
 		lm[x + y * pW] = (maxRed << 16 | maxGreen << 8 | maxBlue);
+	}
+
+	private void setLightBlockMap(int x, int y, int value) {
+		if(x < 0 || x >= pW || y < 0 || y >= pH) {
+			return;
+		}
+		lb[x + y * pW] = value;
 	}
 
 	public void translateA() {
@@ -178,5 +269,15 @@ public class Renderer {
 			g2dLm = lightMapImage.createGraphics();
 		}
 		return g2dLm;
+	}
+
+
+	public void updateLightBlockMap(List<GameObject> gameObjects) {
+		for(GameObject gameObject : gameObjects) {
+			if(gameObject.isBlockLight()) {
+				final Rectangle bounds = gameObject.getBlockBounds();
+				renderLightBlock(bounds.getX(), bounds.getY(), bounds.getWidth(), bounds.getHeight());
+			}
+		}
 	}
 }

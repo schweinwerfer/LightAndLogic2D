@@ -8,13 +8,8 @@ import de.ora.game.engine.gfx.light.Light;
 import de.ora.game.ext.Renderer;
 
 public class GameOne extends AbstractGame {
-	private Image image;
-	private Camera camera;
-	private Light light;
 
 	public GameOne() {
-//		image = new Image("images/star.png");
-
 	}
 
 	public static void main(String[] args) {
@@ -29,8 +24,5 @@ public class GameOne extends AbstractGame {
 
 	@Override
 	public void render(GameContainer game, Renderer renderer) {
-		camera = game.getCamera();
-		//renderer.draw(image, (int) -camera.getX()+32, (int) -camera.getY()+32);
-
 	}
 }

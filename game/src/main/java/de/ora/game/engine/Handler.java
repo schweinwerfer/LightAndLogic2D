@@ -14,6 +14,7 @@ public class Handler {
 
 
 	public void render(Graphics2D g, Renderer renderer) {
+		renderer.updateLightBlockMap(gameObjects);
 		for(final GameObject gameObject : gameObjects) {
 			gameObject.render(g, renderer);
 		}

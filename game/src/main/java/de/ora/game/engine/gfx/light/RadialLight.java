@@ -9,7 +9,7 @@ public class RadialLight extends Light {
 	private final int radius;
 	private final int diameter;
 	private final BufferedImage lightImg;
-	private final int[] lm;
+
 
 	public RadialLight(int radius, Color color) {
 		super(radius);
@@ -33,10 +33,8 @@ public class RadialLight extends Light {
 
 		g2d.dispose();
 
-		lm = ((DataBufferInt) lightImg.getRaster().getDataBuffer()).getData();
+		setLm(((DataBufferInt) lightImg.getRaster().getDataBuffer()).getData());
 	}
 
-	public int[] getLm() {
-		return lm;
-	}
+
 }

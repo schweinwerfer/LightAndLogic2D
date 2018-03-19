@@ -14,6 +14,7 @@ public abstract class GameObject {
 	public ObjectId id;
 	private Handler handler;
 	private SpriteSheet spriteSheet;
+	private boolean blockLight = false;
 
 	public GameObject(ObjectId id, int x, int y, int zBuff, SpriteSheet spriteSheet) {
 		this(id, x, y, zBuff);
@@ -99,5 +100,17 @@ public abstract class GameObject {
 
 	public int getzBuff() {
 		return zBuff;
+	}
+
+	public boolean isBlockLight() {
+		return blockLight;
+	}
+
+	protected void setBlockLight(boolean blockLight) {
+		this.blockLight = blockLight;
+	}
+
+	public Rectangle getBlockBounds() {
+		return null;
 	}
 }

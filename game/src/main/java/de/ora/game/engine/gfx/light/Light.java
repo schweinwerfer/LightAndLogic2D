@@ -1,10 +1,9 @@
 package de.ora.game.engine.gfx.light;
 
-import java.awt.*;
-
 public abstract class Light {
 	private int radius;
 	private int diameter;
+	private int[] lm;
 
 	public Light(int radius) {
 		this.radius = radius;
@@ -19,5 +18,18 @@ public abstract class Light {
 		return diameter;
 	}
 
-	public abstract int[] getLm();
+	public int[] getLm() {
+		return lm;
+	}
+
+	public void setLm(int[] lm) {
+		this.lm = lm;
+	}
+
+	public int getLightValue(int x, int y) {
+		if(x < 0 || x >= diameter || y < 0 || y >= diameter) {
+			return 0;
+		}
+		return lm[x + y * diameter];
+	}
 }

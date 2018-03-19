@@ -12,17 +12,25 @@ public class Image {
 	private int w, h;
 	private int[] p;
 
-	public Image(String path) {
+	public Image(final String path) {
 		try {
 			BufferedImage image = ImageIO.read(getClass().getClassLoader().getResource(path));
-			w = image.getWidth();
-			h = image.getHeight();
-			p = image.getRGB(0, 0, w, h, null, 0, w);
+			init(image);
 			image.flush();
 		}
 		catch(IOException e) {
 			LOG.error("Could not load image: {}", path, e);
 		}
+	}
+
+	public Image(final BufferedImage image) {
+		init(image);
+	}
+
+	private void init(final BufferedImage image) {
+		w = image.getWidth();
+		h = image.getHeight();
+		p = image.getRGB(0, 0, w, h, null, 0, w);
 	}
 
 	public int getW() {
