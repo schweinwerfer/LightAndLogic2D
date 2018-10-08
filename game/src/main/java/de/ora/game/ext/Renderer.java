@@ -161,7 +161,7 @@ public class Renderer {
 	}
 
 	public void drawLight(Light light, int offX, int offY) {
-		for(int i = 0; i < light.getDiameter(); i++) {
+		for(int i = 0; i < light.getDiameter()+1; i++) {
 			drawLightLine(light, light.getRadius(), light.getRadius(), i, 0, offX, offY);
 			drawLightLine(light, light.getRadius(), light.getRadius(), i, light.getDiameter(), offX, offY);
 			drawLightLine(light, light.getRadius(), light.getRadius(), 0, i, offX, offY);
